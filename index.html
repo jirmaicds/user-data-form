@@ -56,42 +56,42 @@ form.addEventListener("submit", async (e) => {
   return ContentService.createTextOutput("This endpoint only supports POST requests");
 }
 
-function doPost(e) {
-  // Allow CORS preflight requests
-  if (e.postData === undefined) {
-    return ContentService.createTextOutput("")
-      .setMimeType(ContentService.MimeType.TEXT)
-      .setHeader("Access-Control-Allow-Origin", "*")
-      .setHeader("Access-Control-Allow-Methods", "POST")
-      .setHeader("Access-Control-Allow-Headers", "Content-Type");
-  }
+// Handle OPTIONS preflight requests
+function doOptions(e) {
+  return ContentService.createTextOutput('')
+    .setMimeType(ContentService.MimeType.TEXT)
+    .setHeader('Access-Control-Allow-Origin', '*')
+    .setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+    .setHeader('Access-Control-Allow-Headers', 'Content-Type');
+}
 
+// Handle POST requests
+function doPost(e) {
+  // Add CORS headers to the response
+  var output;
   try {
     var data = JSON.parse(e.postData.contents);
 
-    // Your logic here: upload file, update sheet etc.
+    // Your logic here (save file, update sheet etc.)
+    // For example, just acknowledge receipt:
+    output = ContentService.createTextOutput("Success");
 
-    var output = ContentService.createTextOutput("Success");
-
-    // Add CORS headers to the response
-    output.setMimeType(ContentService.MimeType.TEXT);
-    output.setHeader("Access-Control-Allow-Origin", "*");
-
-    return output;
-  } catch (error) {
-    var output = ContentService.createTextOutput("Error: " + error.message);
-    output.setMimeType(ContentService.MimeType.TEXT);
-    output.setHeader("Access-Control-Allow-Origin", "*");
-    return output;
+  } catch (err) {
+    output = ContentService.createTextOutput("Error: " + err.message);
   }
+
+  return output
+    .setMimeType(ContentService.MimeType.TEXT)
+    .setHeader('Access-Control-Allow-Origin', '*');
 }
-  fetch(scriptURL, {
-  method: "POST",
-  body: JSON.stringify(payload),
-  headers: {
-    "Content-Type": "application/json"
-  }
-});
+
+// Optional: handle GET requests
+function doGet(e) {
+  return ContentService.createTextOutput("Use POST requests")
+    .setMimeType(ContentService.MimeType.TEXT)
+    .setHeader('Access-Control-Allow-Origin', '*');
+}
+
 
 
 }); });
