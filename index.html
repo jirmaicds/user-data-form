@@ -12,9 +12,11 @@
   </form>
 
   <script>
+    document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
 const fileInput = document.querySelector("input[type=file]");
 const usernameInput = document.querySelector("input[name=username]");
+const username = usernameInput.value;
 const scriptURL = 'https://script.google.com/macros/s/AKfycbwS71OxbsQH_-59GePOsn0iALAXBeiMZN0o3q7JVJQMYd6h4IjukQDX4ijxOVa9Kgyi/exec'; // <- Paste your Apps Script Web App URL
 
 form.addEventListener("submit", async (e) => {
@@ -50,7 +52,7 @@ form.addEventListener("submit", async (e) => {
   };
 
   reader.readAsDataURL(file);
-});
+}); });
   </script>
 </body>
 </html>
