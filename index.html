@@ -55,7 +55,28 @@ form.addEventListener("submit", async (e) => {
 }); });
 // Google Apps Script - place ONLY in the script editor
 
+function doPost(e) {
+  var output;
+  try {
+    var data = JSON.parse(e.postData.contents);
+
+    // Your logic here (e.g. save file, update sheet, etc.)
+
+    output = ContentService.createTextOutput("Success");
+
+  } catch (err) {
+    output = ContentService.createTextOutput("Error: " + err.message);
+  }
+
+  return output
+    .setMimeType(ContentService.MimeType.TEXT)
+    .setHeader('Access-Control-Allow-Origin', '*') // Allow all origins
+    .setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+    .setHeader('Access-Control-Allow-Headers', 'Content-Type');
+}
+
 function doOptions(e) {
+  // Handle CORS preflight OPTIONS request
   return ContentService.createTextOutput('')
     .setMimeType(ContentService.MimeType.TEXT)
     .setHeader('Access-Control-Allow-Origin', '*')
@@ -63,28 +84,6 @@ function doOptions(e) {
     .setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
-function doPost(e) {
-  var output;
-  try {
-    var data = JSON.parse(e.postData.contents);
-
-    // TODO: Your logic to save file & update Google Sheet
-
-    output = ContentService.createTextOutput("Success");
-  } catch (err) {
-    output = ContentService.createTextOutput("Error: " + err.message);
-  }
-
-  return output
-    .setMimeType(ContentService.MimeType.TEXT)
-    .setHeader('Access-Control-Allow-Origin', '*');
-}
-
-function doGet(e) {
-  return ContentService.createTextOutput("Use POST requests")
-    .setMimeType(ContentService.MimeType.TEXT)
-    .setHeader('Access-Control-Allow-Origin', '*');
-}
 
   </script>
 </body>
