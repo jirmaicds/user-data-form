@@ -32,20 +32,15 @@
           fileData: base64Data
         };
 
-        try {
-          const response = await fetch("https://script.google.com/macros/s/AKfycbxV79DnVpPJviY-tKvI7RrZw3RqNeLjDbXdbsmb4rptJIIrCzla8M3tJBIiulg2QCIO/exec", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-          });
-          const text = await response.text();
-          alert(text);
-        } catch (error) {
-          alert("Upload failed: " + error.message);
-          console.error(error);
-        }
+        fetch("YOUR_WEB_APP_URL_HERE", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({test:"test"})
+})
+.then(res => res.text())
+.then(console.log)
+.catch(console.error);
+
       };
       reader.readAsDataURL(file);
     });
