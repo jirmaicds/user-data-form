@@ -52,11 +52,9 @@ form.addEventListener("submit", async (e) => {
   };
 
   reader.readAsDataURL(file);
-  function doGet(e) {
-  return ContentService.createTextOutput("This endpoint only supports POST requests");
-}
+}); });
+// Google Apps Script - place ONLY in the script editor
 
-// Handle OPTIONS preflight requests
 function doOptions(e) {
   return ContentService.createTextOutput('')
     .setMimeType(ContentService.MimeType.TEXT)
@@ -65,17 +63,14 @@ function doOptions(e) {
     .setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
-// Handle POST requests
 function doPost(e) {
-  // Add CORS headers to the response
   var output;
   try {
     var data = JSON.parse(e.postData.contents);
 
-    // Your logic here (save file, update sheet etc.)
-    // For example, just acknowledge receipt:
-    output = ContentService.createTextOutput("Success");
+    // TODO: Your logic to save file & update Google Sheet
 
+    output = ContentService.createTextOutput("Success");
   } catch (err) {
     output = ContentService.createTextOutput("Error: " + err.message);
   }
@@ -85,16 +80,12 @@ function doPost(e) {
     .setHeader('Access-Control-Allow-Origin', '*');
 }
 
-// Optional: handle GET requests
 function doGet(e) {
   return ContentService.createTextOutput("Use POST requests")
     .setMimeType(ContentService.MimeType.TEXT)
     .setHeader('Access-Control-Allow-Origin', '*');
 }
 
-
-
-}); });
   </script>
 </body>
 </html>
